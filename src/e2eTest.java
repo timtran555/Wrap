@@ -16,19 +16,19 @@ public class e2eTest {
 	private WebDriver driver;
 	
 	//Arguments
-	private String homeUrl = "https://www.wrap.co/index/";
-	private String eMailAdd = "test12@yahoo.com";
-	private String userName = "test12";
+	private String homeUrl = "https://www.qa.wrapdev.net/index/";
+	private String eMailAdd = "test18@yahoo.com";
+	private String userName = "test18";
 	private String password = "password0000";
 	private String firstName ="Firstname";
 	private String lastName = "Lastname";
 	private String companyName = "My Company";
 	private String phoneNumber = "4085558888";
-	private String aTemplate ="'App Download'";
+	private String aTemplate ="'Storytelling'";
 	
 	//Selectors
 	private String freeTrial = "//span[contains(text(),'Free trial')]";
-	private String signUp = "//a[text()='Sign Up']";
+	private String signUp = "//a[contains(text(),'Sign Up')]";
 	private String signUpTitle = "//h3[text()='Sign Up']";
 	private String email = ".o-auth-input";
 	private String userN = "input[placeholder='Create a username']";
@@ -38,10 +38,8 @@ public class e2eTest {
 	private String lNam = "input[placeholder='Last Name *']";
 	private String company = "input[placeholder='Company *']";
 	private String phoneN = "input[placeholder='Phone Number']";
-	private String closeButton = ".help-tour_nav--close";
 	private String createNewWrap = ".wraps_create-btn";
 	private String publish = "//button[text()='Publish']";
-	private String successMessage = "h4.modal-title";
 
 
 	@Before
@@ -70,11 +68,8 @@ public class e2eTest {
 		clickSubmit();
 		clickCreateNewWrap();
 		pickATemplate(aTemplate);
-		closeHelpTour();
-		Thread.sleep(2000);
+		clickCreateWrap();		
 		clickPublish();		
-		closeHelpTour();
-		verifyPublishSuccessful();
 		System.out.println("Pass");
 	}
 	
@@ -134,16 +129,12 @@ public class e2eTest {
 		driver.findElement(By.cssSelector(createNewWrap)).click();
 	}
 	private void pickATemplate(String template) {
-		driver.findElement(By.xpath("//label[@title="+template+"]/../div/button[contains(text(),'Use')]")).click();
+		driver.findElement(By.xpath("//div[contains(text(),"+template+")]")).click();
 	}
-	private void closeHelpTour() {
-		driver.findElement(By.cssSelector(closeButton)).click();
+	private void clickCreateWrap() {
+		driver.findElement(By.xpath("//button[contains(text(),'Create Wrap')]")).click();
 	}
 	private void clickPublish() {
 		driver.findElement(By.xpath(publish)).click();
-	}
-	private void verifyPublishSuccessful() {
-		String publishSuccessfulMessage = driver.findElement(By.cssSelector(successMessage)).getText();
-		Assert.assertEquals("Publish Successful", publishSuccessfulMessage);	
 	}
 }
